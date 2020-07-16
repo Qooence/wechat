@@ -80,9 +80,7 @@ public class ExportWordController {
         map.put("year", message.getYear());
         map.put("price", ArithHelper.round(message.getPrice(),2));
         map.put("basePrice", ArithHelper.round(basePrice,2));
-
-        List<Map<String,Object>> _list17 = new ArrayList<>();
-        List<Map<String,Object>> list17_ = new ArrayList<>();
+        List<Map<String,Object>> list = new ArrayList<>();
         for (int i = 0; i < dataList.size(); i++) {
             int polYr = dataList.get(i).getPolYr();
             Map<String,Object> one = new HashMap<>();
@@ -94,29 +92,23 @@ public class ExportWordController {
                 one.put("four",ArithHelper.mul(message.getPrice(),polYr));
             }else{
                 one.put("three",0);
-                one.put("four",0);
+                one.put("four",message.getPrice()*message.getAge());
             }
-            one.put("five","");
-            one.put("sex","");
-            one.put("seven","");
-            if(polYr <= 17){
-                _list17.add(one);
-            }else {
-                list17_.add(one);
-            }
-
+            one.put("five","5");
+            one.put("six","6");
+            one.put("seven","7");
+            list.add(one);
         }
-        map.put("_list17",_list17);
-        map.put("list17_",list17_);
+        map.put("list",list);
         try {
-            XWPFDocument doc = WordExportUtil.exportWord07(
-                    "doc/test.docx", map);
+            XWPFDocument doc = WordExportUtil.exportWord07("doc/test.docx", map);
             FileOutputStream fos = new FileOutputStream("E://excel/image.docx");
             doc.write(fos);
             fos.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         return Response.success(map);
     }
 }
