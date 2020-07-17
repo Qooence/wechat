@@ -1,23 +1,20 @@
 package com.qooems.wechat.controller;
 
-import cn.afterturn.easypoi.word.WordExportUtil;
-import cn.hutool.core.collection.CollectionUtil;
 import com.alibaba.fastjson.JSONObject;
-import com.qooems.wechat.common.response.Response;
-import com.qooems.wechat.common.response.ResponseCode;
 import com.qooems.wechat.common.util.ArithHelper;
+import com.qooems.wechat.common.util.MyWordExportUtil;
+import com.qooems.wechat.common.util.StrUtil;
 import com.qooems.wechat.model.BaseData;
 import com.qooems.wechat.model.Message;
 import com.qooems.wechat.service.BaseDataService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.FileOutputStream;
+import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 
 @RequestMapping("export")
@@ -29,7 +26,7 @@ public class ExportWordController {
     BaseDataService baseDataService;
 
     @GetMapping("compute")
-    public Response compute(Message message){
+    public void compute(Message message, HttpServletResponse response){
         log.info("传入的数据:[{}]", JSONObject.toJSON(message));
         // 1年0岁 男性
         // factor!$B5 = MATCH(A5,data!$A$5:$A$54772,0) 拿到序号
@@ -67,13 +64,22 @@ public class ExportWordController {
         List<BaseData> dataList = baseDataService.findByIndex_(index_.toString());
         // 基本保额 = 数据库base_data中 符合查询条件(年限|106@|性别|年龄|)的序号是最大的数据的GP
         // 每条GP都是一样的
-        if(CollectionUtil.isEmpty(dataList)){
-            return Response.error(ResponseCode.DATA_NOT_FOUND,"未找到匹配数据");
-        }
         BaseData minData = dataList.get(0);
         Double basePrice = ArithHelper.mul(ArithHelper.div(message.getPrice(),1000),minData.getGp());
+        String name = "  ";
+        String fileName;
+        if(StringUtils.isNotBlank(message.getName())){
+            name = message.getName();
+            fileName = name + rSexName + "-阳光臻爱倍致保险计划书.docx";
+        }else{
+            fileName = message.getAge() + "岁"
+                    + StrUtil.int2chineseNum(message.getPrice())
+                    + StrUtil.int2chineseNum(message.getYear()) + "年"
+                    + "-" + message.getSex() + "-计划书.docx";
+        }
+
         Map<String, Object> map = new HashMap<>();
-        map.put("name", StringUtils.isNotBlank(message.getName()) ? message.getName() : " ");
+        map.put("name", name);
         map.put("age", message.getAge());
         map.put("sex", message.getSex());
         map.put("sexName", rSexName);
@@ -83,8 +89,7 @@ public class ExportWordController {
         List<Map<String,Object>> list = new ArrayList<>();
         for (int i = 0; i < dataList.size(); i++) {
             int polYr = dataList.get(i).getPolYr();
-            Map<String,Object> one = new HashMap<>();
-
+            Map<String,Object> one = new LinkedHashMap<>();
             one.put("one",polYr);
             one.put("two",message.getAge() + polYr);
             if(polYr <= message.getYear()){
@@ -99,16 +104,6 @@ public class ExportWordController {
             one.put("seven","7");
             list.add(one);
         }
-        map.put("list",list);
-        try {
-            XWPFDocument doc = WordExportUtil.exportWord07("doc/test.docx", map);
-            FileOutputStream fos = new FileOutputStream("E://excel/image.docx");
-            doc.write(fos);
-            fos.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return Response.success(map);
+        MyWordExportUtil.exportWord07(response,fileName,"doc/test1.docx",list,map);
     }
 }
