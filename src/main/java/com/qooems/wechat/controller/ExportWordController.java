@@ -1,9 +1,11 @@
 package com.qooems.wechat.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.qooems.wechat.common.response.Response;
 import com.qooems.wechat.common.util.ArithHelper;
 import com.qooems.wechat.common.util.MyWordExportUtil;
 import com.qooems.wechat.common.util.StrUtil;
+import com.qooems.wechat.common.util.cuFive;
 import com.qooems.wechat.model.BaseData;
 import com.qooems.wechat.model.Message;
 import com.qooems.wechat.service.BaseDataService;
@@ -84,26 +86,42 @@ public class ExportWordController {
         map.put("sex", message.getSex());
         map.put("sexName", rSexName);
         map.put("year", message.getYear());
-        map.put("price", ArithHelper.round(message.getPrice(),2));
-        map.put("basePrice", ArithHelper.round(basePrice,2));
+        map.put("price", ArithHelper.format(message.getPrice(),"#.00"));
+        map.put("basePrice", ArithHelper.format(basePrice,"#.00"));
         List<Map<String,Object>> list = new ArrayList<>();
         for (int i = 0; i < dataList.size(); i++) {
             int polYr = dataList.get(i).getPolYr();
             Map<String,Object> one = new LinkedHashMap<>();
             one.put("one",polYr);
-            one.put("two",message.getAge() + polYr);
+            int two = message.getAge() + polYr;
+            one.put("two",two);
+            int four;
             if(polYr <= message.getYear()){
                 one.put("three",message.getPrice());
-                one.put("four",ArithHelper.mul(message.getPrice(),polYr));
+                four = message.getPrice()*polYr;
+                one.put("four",four);
             }else{
                 one.put("three",0);
-                one.put("four",message.getPrice()*message.getAge());
+                four = message.getPrice()*message.getYear();
+                one.put("four",four);
             }
-            one.put("five","5");
-            one.put("six","6");
-            one.put("seven","7");
+            double six = message.getPrice()/1000*dataList.get(i).getCv();
+            one.put("five", cuFive.cu(polYr,two,four,six,message,basePrice));
+            one.put("six",ArithHelper.format(six,"#"));
+            if(i < 4){
+                one.put("seven","-");
+            }else{
+                if(message.getYear() <= 3){
+
+                }else{
+
+                }
+                one.put("seven","7");
+            }
+
             list.add(one);
         }
-        MyWordExportUtil.exportWord07(response,fileName,"doc/test1.docx",list,map);
+        MyWordExportUtil.exportWord07(response,fileName,"doc/template.docx",list,map);
     }
+
 }

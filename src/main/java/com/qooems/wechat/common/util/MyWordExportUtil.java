@@ -25,7 +25,7 @@ public class MyWordExportUtil {
             POIUtil.testTableStyle(table,dataList,2);
             POIUtil.insertRow(table,1,19);
             POIUtil.setBorder(table);
-            POIUtil.deleteRow(table,table.getRows().size() - 1);
+            POIUtil.deleteRow(table,table.getRows().size());
             downLoadWord(response,fileName,doc);
         } catch (Exception e) {
             e.printStackTrace();

@@ -1,5 +1,9 @@
 package com.qooems.wechat.common.util;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+
 public class ArithHelper {
 
     // 默认除法运算精度
@@ -122,9 +126,17 @@ public class ArithHelper {
             throw new IllegalArgumentException("The   scale   must   be   a   positive   integer   or   zero");
         }
         java.math.BigDecimal b = new java.math.BigDecimal(Double.toString(v));
-        java.math.BigDecimal one = new java.math.BigDecimal("1");
-        return b.divide(one, scale, java.math.BigDecimal.ROUND_HALF_UP).doubleValue();
+        return b.setScale(scale, java.math.BigDecimal.ROUND_HALF_UP).doubleValue();
     }
+
+    public static String format(double v,String format) {
+        java.math.BigDecimal b = new java.math.BigDecimal(Double.toString(v));
+        DecimalFormat df = new DecimalFormat(format);
+        df.setRoundingMode(RoundingMode.HALF_EVEN); // 四舍五入
+        return df.format(b.doubleValue());
+    }
+
+
 
     public static double round(String v, int scale) {
         if (scale < 0) {
