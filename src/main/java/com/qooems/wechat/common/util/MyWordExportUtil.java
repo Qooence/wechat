@@ -25,7 +25,11 @@ public class MyWordExportUtil {
             POIUtil.testTableStyle(table,dataList,2);
             POIUtil.insertRow(table,1,19);
             POIUtil.setBorder(table);
+            // 删除最后两行
             POIUtil.deleteRow(table,table.getRows().size());
+            if(dataList.size() < 63){
+                POIUtil.deleteRow(table,table.getRows().size()-1);
+            }
             downLoadWord(response,fileName,doc);
         } catch (Exception e) {
             e.printStackTrace();

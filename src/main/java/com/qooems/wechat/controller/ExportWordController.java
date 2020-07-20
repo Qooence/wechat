@@ -30,26 +30,6 @@ public class ExportWordController {
     @GetMapping("compute")
     public void compute(Message message, HttpServletResponse response){
         log.info("传入的数据:[{}]", JSONObject.toJSON(message));
-        // 1年0岁 男性
-        // factor!$B5 = MATCH(A5,data!$A$5:$A$54772,0) 拿到序号
-        // facort!GP ==OFFSET(data!I$4,factor!$B5,0)
-        // 985.9 从数据库获取 GP
-        // OFFSET(985.9,1,0)  // 从
-        // facort!GP 其实就是拿数据库中的GP
-        // 985.9
-
-
-        //  MATCH函数语法为：MATCH（lookup_value,lookuparray,match-type）
-//        lookup_value：表示查询的指定内容；
-//        lookuparray：表示查询的指定区域；
-//        match-type：表示查询的指定方式，用数字-1、0或者1表示，具体如图：
-        // factor!$B5 == MATCH(A5,data!$A$5:$A$54772,0)
-
-        // factor!J5 = =OFFSET(data!I$4,factor!$B5,0)
-
-        //基本保额 INPUT_GP/1000*factor!J5
-        //message.getPrice()/1000*factor
-
         String sexName = "F";
         String rSexName = "女士";
         if("男".equals(message.getSex())){
@@ -89,6 +69,7 @@ public class ExportWordController {
         map.put("price", ArithHelper.format(message.getPrice(),"#.00"));
         map.put("basePrice", ArithHelper.format(basePrice,"#.00"));
         List<Map<String,Object>> list = new ArrayList<>();
+        double prevSix = 0;
         for (int i = 0; i < dataList.size(); i++) {
             int polYr = dataList.get(i).getPolYr();
             Map<String,Object> one = new LinkedHashMap<>();
@@ -107,21 +88,22 @@ public class ExportWordController {
             }
             double six = message.getPrice()/1000*dataList.get(i).getCv();
             one.put("five", cuFive.cu(polYr,two,four,six,message,basePrice));
-            one.put("six",ArithHelper.format(six,"#"));
+            String sixFormat = ArithHelper.format(six,"#");
+            one.put("six",sixFormat);
             if(i < 4){
                 one.put("seven","-");
             }else{
-                if(message.getYear() <= 3){
-
-                }else{
-
+                String seven = ArithHelper.format(((six-prevSix)/four)*100,"#.00") + "%";
+                if(message.getYear() == 5){
+                    if(i == 4){
+                        seven = "3" + seven.substring(2);
+                    }
                 }
-                one.put("seven","7");
+                one.put("seven",seven);
             }
-
+            prevSix = Integer.parseInt(sixFormat);
             list.add(one);
         }
         MyWordExportUtil.exportWord07(response,fileName,"doc/template.docx",list,map);
     }
-
 }
