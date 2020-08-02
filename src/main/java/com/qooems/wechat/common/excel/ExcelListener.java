@@ -4,7 +4,7 @@ import com.alibaba.excel.context.AnalysisContext;
 import com.alibaba.excel.event.AnalysisEventListener;
 import com.alibaba.fastjson.JSON;
 import com.qooems.wechat.common.util.StrUtil;
-import com.qooems.wechat.model.BaseData;
+import com.qooems.wechat.model.DataZI;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
@@ -12,9 +12,9 @@ import java.util.List;
 import java.util.Map;
 
 @Slf4j
-public class ExcelListener extends AnalysisEventListener<BaseData> {
+public class ExcelListener extends AnalysisEventListener<DataZI> {
 
-    List<BaseData> dataList = new ArrayList<>(); // 要导入的数据
+    List<DataZI> dataList = new ArrayList<>(); // 要导入的数据
     private Integer sort = 1;
 
     @Override
@@ -24,7 +24,7 @@ public class ExcelListener extends AnalysisEventListener<BaseData> {
 
     //一行一行读取excel内容
     @Override
-    public void invoke(BaseData data, AnalysisContext analysisContext) {
+    public void invoke(DataZI data, AnalysisContext analysisContext) {
         log.info("解析到一条数据:{}", JSON.toJSONString(data));
         data.setSort(sort);
         data.setIndex_(StrUtil.subLastTwo(data.getIndex_(),"|"));
@@ -38,7 +38,7 @@ public class ExcelListener extends AnalysisEventListener<BaseData> {
         log.info("数据读取完成");
     }
 
-    public List<BaseData> getDataList() {
+    public List<DataZI> getDataList() {
         return dataList;
     }
 }
