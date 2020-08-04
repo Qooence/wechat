@@ -1,8 +1,6 @@
 package com.qooems.wechat.service.impl;
 
 import com.alibaba.excel.EasyExcel;
-import com.alibaba.excel.ExcelReader;
-import com.alibaba.excel.read.metadata.ReadSheet;
 import com.qooems.wechat.common.base.BaseServiceImpl;
 import com.qooems.wechat.common.excel.ExcelListener;
 import com.qooems.wechat.mapper.DataZIMapper;

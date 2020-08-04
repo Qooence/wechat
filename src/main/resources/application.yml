@@ -14,6 +14,12 @@ spring:
       url: jdbc:mysql://localhost:3306/wechat_data?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
       username: root
       password: 123456
+#      url: jdbc:mysql://172.10.10.3:1039/yytong_taihe_cloud?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&zeroDateTimeBehavior=convertToNull&noAccessToProcedureBodies=true
+#      username: db_yun_read
+#      password: 0LelfT9pSKPm6N6jffZS
+#      url: jdbc:mysql://localhost:3306/yytong_taihe_cloud?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+#      username: root
+#      password: 123456
       #配置初始化大小/最小/最大
       initial-size: 1
       min-idle: 1
