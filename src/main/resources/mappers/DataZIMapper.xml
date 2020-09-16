@@ -23,18 +23,34 @@
         <result column="SB" jdbcType="DOUBLE" property="sb"/>
     </resultMap>
 
+<!-- mysql -->
+<!--    <select id="findByIndex_" resultMap="BaseResultMap">-->
+<!--        SELECT-->
+<!--            *-->
+<!--        FROM-->
+<!--            data_zi-->
+<!--        <where>-->
+<!--            <if test="index_ != null and index_ != ''">-->
+<!--                AND index_ = #{index_}-->
+<!--            </if>-->
+<!--        </where>-->
+<!--        ORDER BY sort ASC-->
+<!--        limit 63-->
+<!--    </select>-->
+
+    <!--oracle  oracle 没有limit -->
     <select id="findByIndex_" resultMap="BaseResultMap">
         SELECT
             *
         FROM
             data_zi
         <where>
+            rownum &lt;= 63
             <if test="index_ != null and index_ != ''">
                 AND index_ = #{index_}
             </if>
         </where>
         ORDER BY sort ASC
-        limit 63
     </select>
 
     <delete id="clear">

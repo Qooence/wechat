@@ -61,7 +61,7 @@ public class ExportWordController {
             fileName = message.getAge() + "岁"
                     + StrUtil.numberToChinese(message.getPrice())
                     + StrUtil.numberToChinese(message.getYear()) + "年"
-                    + "-" + message.getSex() + "-计划书(旧).docx";
+                    + "-" + message.getSex() + "-计划书.docx";
         }
 
         Map<String, Object> map = new HashMap<>();
@@ -141,7 +141,7 @@ public class ExportWordController {
             fileName = message.getAge() + "岁"
                     + StrUtil.numberToChinese(message.getPrice())
                     + StrUtil.numberToChinese(message.getYear()) + "年"
-                    + "-" + message.getSex() + "-计划书(新).docx";
+                    + "-" + message.getSex() + "-计划书.docx";
         }
 
         Map<String, Object> map = new HashMap<>();

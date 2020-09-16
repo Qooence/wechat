@@ -14,18 +14,34 @@
         <result column="CV" jdbcType="DOUBLE" property="cv"/>
     </resultMap>
 
+<!--mysql -->
+<!--    <select id="findByIndex_" resultMap="BaseResultMap">-->
+<!--        SELECT-->
+<!--            *-->
+<!--        FROM-->
+<!--            data_zx-->
+<!--        <where>-->
+<!--            <if test="index_ != null and index_ != ''">-->
+<!--                AND index_ = #{index_}-->
+<!--            </if>-->
+<!--        </where>-->
+<!--        ORDER BY sort ASC-->
+<!--        limit 63;-->
+<!--    </select>-->
+
+    <!--oracle  oracle 没有limit -->
     <select id="findByIndex_" resultMap="BaseResultMap">
         SELECT
             *
         FROM
             data_zx
         <where>
+            rownum &lt;= 63
             <if test="index_ != null and index_ != ''">
                 AND index_ = #{index_}
             </if>
         </where>
         ORDER BY sort ASC
-        limit 63
     </select>
 
     <delete id="clear">

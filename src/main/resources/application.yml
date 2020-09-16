@@ -9,10 +9,16 @@ spring:
     druid:
       #监控统计拦截的filters
       filters: stat
-      driver-class-name: com.mysql.cj.jdbc.Driver
       #基本属性
-      url: jdbc:mysql://localhost:3306/wechat_data?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
-      username: root
+      ## mysql
+#      driver-class-name: com.mysql.cj.jdbc.Driver
+#      url: jdbc:mysql://localhost:3306/wechat_data?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+#      username: root
+#      password: 123456
+      # oracle
+      driver-class-name: oracle.jdbc.OracleDriver
+      url: jdbc:oracle:thin:@localhost:1521:orcl
+      username: wechat
       password: 123456
       #配置初始化大小/最小/最大
       initial-size: 1
@@ -24,7 +30,10 @@ spring:
       time-between-eviction-runs-millis: 60000
       #一个连接在池中最小生存的时间
       min-evictable-idle-time-millis: 300000
-      validation-query: SELECT 'x'
+      #mysql
+#      validation-query: SELECT 'x'
+      # oracle
+      validation-query: select 1 from dual
       test-while-idle: true
       test-on-borrow: false
       test-on-return: false
