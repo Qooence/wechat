@@ -52,6 +52,7 @@ public class ExportWordController {
         // 每条GP都是一样的
         DataZI minData = dataList.get(0);
         Double basePrice = ArithHelper.mul(ArithHelper.div(message.getPrice(),1000),minData.getGp());
+        Integer totalPrice = message.getYear() * message.getPrice();
         String name = "  ";
         String fileName;
         if(StringUtils.isNotBlank(message.getName())){
@@ -72,6 +73,7 @@ public class ExportWordController {
         map.put("year", message.getYear());
         map.put("price", ArithHelper.format(message.getPrice(),"#.00"));
         map.put("basePrice", ArithHelper.format(basePrice,"#.00"));
+        map.put("totalPrice", ArithHelper.format(totalPrice,"#.00"));
         List<Map<String,Object>> list = new ArrayList<>();
         double prevSix = 0;
         for (int i = 0; i < dataList.size(); i++) {
@@ -86,10 +88,15 @@ public class ExportWordController {
                 four = message.getPrice()*polYr;
                 one.put("four",four);
             }else{
-                one.put("three",0);
-                four = message.getPrice()*message.getYear();
-                one.put("four",four);
+                if(i == message.getYear()){
+                    one.put("three","合计" + totalPrice/10000 + "万");
+                }else{
+                    one.put("three",0);
+                }
+                four = totalPrice;
+                one.put("four",totalPrice);
             }
+
             double six = message.getPrice()/1000*dataList.get(i).getCv();
             one.put("five", cuFive.cu(polYr,two,four,six,message,basePrice));
             String sixFormat = ArithHelper.format(six,"#");
@@ -132,6 +139,7 @@ public class ExportWordController {
         // 每条GP都是一样的
         DataZX minData = dataList.get(0);
         Double basePrice = ArithHelper.mul(ArithHelper.div(message.getPrice(),1000),minData.getGp());
+        Integer totalPrice = message.getYear() * message.getPrice();
         String name = "  ";
         String fileName;
         if(StringUtils.isNotBlank(message.getName())){
@@ -152,6 +160,7 @@ public class ExportWordController {
         map.put("year", message.getYear());
         map.put("price", ArithHelper.format(message.getPrice(),"#.00"));
         map.put("basePrice", ArithHelper.format(basePrice,"#.00"));
+        map.put("totalPrice", ArithHelper.format(totalPrice,"#.00"));
         List<Map<String,Object>> list = new ArrayList<>();
         double prevSix = 0;
         for (int i = 0; i < dataList.size(); i++) {
@@ -166,9 +175,13 @@ public class ExportWordController {
                 four = message.getPrice()*polYr;
                 one.put("four",four);
             }else{
-                one.put("three",0);
-                four = message.getPrice()*message.getYear();
-                one.put("four",four);
+                if(i == message.getYear()){
+                    one.put("three","合计" + totalPrice/10000 + "万");
+                }else{
+                    one.put("three",0);
+                }
+                four = totalPrice;
+                one.put("four",totalPrice);
             }
             double six = message.getPrice()/1000*dataList.get(i).getCv();
             one.put("five", cuFive.cu(polYr,two,four,six,message,basePrice));

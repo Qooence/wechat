@@ -17,12 +17,20 @@ import java.util.Map;
 @Slf4j
 public class MyWordExportUtil {
 
+    /**
+     * 导出word 07格式
+     * @param response
+     * @param fileName 文件名
+     * @param path 模板路径
+     * @param dataList 数据集
+     * @param data 传入参数
+     */
     public static void exportWord07(HttpServletResponse response,String fileName ,String path, List<Map<String,Object>> dataList, Map<String,Object> data){
         try {
             XWPFDocument doc = getXWPFDocument(path);
             XWPFTable table = doc.getTables().get(0);
             (new ParseWord07()).parseWordSetValue(doc, data);
-            POIUtil.testTableStyle(table,dataList,2);
+            POIUtil.testTableStyle(table,dataList,2,(Integer) data.get("year"));
             POIUtil.insertRow(table,1,19);
             POIUtil.setBorder(table);
             // 删除最后两行
