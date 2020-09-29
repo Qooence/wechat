@@ -196,6 +196,6 @@ public class ExportWordController {
             prevSix = Integer.parseInt(sixFormat);
             list.add(one);
         }
-        MyWordExportUtil.exportWord07(response,fileName,"doc/template_zx.docx",list,map);
+        MyWordExportUtil.exportWord07(response,fileName, "doc/template_zx_2020_9_28.docx",list,map);
     }
 }

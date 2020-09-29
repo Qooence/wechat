@@ -12,4 +12,6 @@ public interface DataZXMapper extends BaseMapper<DataZX> {
     List<DataZX> findByIndex_(@Param("index_") String index_);
 
     void clear();
+
+    void myInsertList(List<DataZX> list);
 }

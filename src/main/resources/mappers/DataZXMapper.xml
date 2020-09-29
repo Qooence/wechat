@@ -48,4 +48,24 @@
         delete from data_zx
     </delete>
 
+    <!--mybatis 的insertList 方法 生成 sql 字段不带双引号 如果有保留字 sql命令会执行不了 -->
+    <insert id="myInsertList" parameterType="List">
+        insert all
+             <foreach collection="list" item="item">
+                 into data_zx("INDEX_","SORT","NP","NB","SEX","AGE","POL_YR","GP","CV")
+                    values (
+                        #{item.index_},
+                        #{item.sort},
+                        #{item.np},
+                        #{item.nb},
+                        #{item.sex},
+                        #{item.age},
+                        #{item.polYr},
+                        #{item.gp},
+                        #{item.cv}
+                    )
+             </foreach>
+        SELECT 1 FROM DUAL
+    </insert>
+
 </mapper>

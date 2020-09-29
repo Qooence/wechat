@@ -14,4 +14,6 @@ public interface DataZIMapper extends BaseMapper<DataZI> {
 
     List<DataZI> findByIndex_(@Param("index_") String index_);
 
+    void myInsertList(List<DataZI> list);
+
 }

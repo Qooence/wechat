@@ -54,13 +54,13 @@ public class DataZIServiceImpl extends BaseServiceImpl<DataZI> implements DataZI
     private void insertLists(List<DataZI> list) {
         int insertLength = list.size();
         int i = 0;
-        while (insertLength > 5000) {
-            dataZIMapper.insertList(list.subList(i, i + 5000));
-            i = i + 5000;
-            insertLength = insertLength - 5000;
+        while (insertLength > 500) {
+            dataZIMapper.myInsertList(list.subList(i, i + 500));
+            i = i + 500;
+            insertLength = insertLength - 500;
         }
         if (insertLength > 0) {
-            dataZIMapper.insertList(list.subList(i, i + insertLength));
+            dataZIMapper.myInsertList(list.subList(i, i + insertLength));
         }
     }
 

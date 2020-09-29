@@ -37,7 +37,7 @@ public class DataZXServiceImpl extends BaseServiceImpl<DataZX> implements DataZX
             dataZXMapper.clear();
             read();
         } catch (IOException e) {
-            log.error("读取{}失败", "/doc/zx-pojie.xlsx");
+            log.error("读取{}失败", "/doc/zx_2020_9_28.xlsx");
             e.printStackTrace();
         }
     }
@@ -46,7 +46,8 @@ public class DataZXServiceImpl extends BaseServiceImpl<DataZX> implements DataZX
         ExcelReader excelReader = null;
         InputStream in = null;
         try {
-            ClassPathResource classPathResource = new ClassPathResource("/doc/zx-pojie.xlsx");
+//            ClassPathResource classPathResource = new ClassPathResource("/doc/zx-pojie.xlsx"); // modify 2020-9-28
+            ClassPathResource classPathResource = new ClassPathResource("/doc/zx_2020_9_28.xlsx");// add 2020-9-28
             in = classPathResource.getInputStream();
             ZXExcelListener excelListener = new ZXExcelListener();
             excelReader = EasyExcel.read(in, DataZX.class, excelListener).build();
@@ -78,13 +79,13 @@ public class DataZXServiceImpl extends BaseServiceImpl<DataZX> implements DataZX
     private void insertLists(List<DataZX> list) {
         int insertLength = list.size();
         int i = 0;
-        while (insertLength > 5000) {
-            dataZXMapper.insertList(list.subList(i, i + 5000));
-            i = i + 5000;
-            insertLength = insertLength - 5000;
+        while (insertLength > 500) {
+            dataZXMapper.myInsertList(list.subList(i, i + 500));
+            i = i + 500;
+            insertLength = insertLength - 500;
         }
         if (insertLength > 0) {
-            dataZXMapper.insertList(list.subList(i, i + insertLength));
+            dataZXMapper.myInsertList(list.subList(i, i + insertLength));
         }
     }
 }

@@ -53,6 +53,35 @@
         ORDER BY sort ASC
     </select>
 
+
+    <insert id="myInsertList" parameterType="List">
+        insert all
+        <foreach collection="list" item="item">
+            into data_zi("INDEX_","SORT","PLAN","VRSN","NP","NB","SEX","AGE","POL_YR","GP","TR","TRNP","CV","CVNP","PUAMT","PUTR","DB","SB")
+            values (
+                #{item.index_},
+                #{item.sort},
+                #{item.plan},
+                #{item.vrsn},
+                #{item.np},
+                #{item.nb},
+                #{item.sex},
+                #{item.age},
+                #{item.polYr},
+                #{item.gp},
+                #{item.tr},
+                #{item.trnp},
+                #{item.cv},
+                #{item.cvnp},
+                #{item.puamt},
+                #{item.putr},
+                #{item.db},
+                #{item.sb}
+            )
+        </foreach>
+        SELECT 1 FROM DUAL
+    </insert>
+
     <delete id="clear">
         delete from data_zi
     </delete>
