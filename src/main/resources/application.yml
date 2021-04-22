@@ -40,6 +40,19 @@ spring:
       #打开PSCache，并指定每个连接上PSCache的大小。oracle设为true，mysql设为false。分库分表较多推荐设置为false
       pool-prepared-statements: false
       max-pool-prepared-statement-per-connection-size: 20
+    #配置了两个数据源
+    wechat:
+      datasource:
+        url: jdbc:oracle:thin:@localhost:1521:orcl
+        username: wechat
+        password: 123456
+        driverClassName: oracle.jdbc.OracleDriver
+    dmsc:
+      datasource:
+        url: jdbc:oracle:thin:@localhost:1521:orcl
+        username: wechat
+        password: 123456
+        driverClassName: oracle.jdbc.OracleDriver
 
 
 #通用mapper配置
