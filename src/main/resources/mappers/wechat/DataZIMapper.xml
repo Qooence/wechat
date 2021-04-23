@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qooems.excel.mapper.wechat.DataZIMapper">
+    <resultMap id="BaseResultMap" type="com.qooems.excel.model.wechat.DataZI">
+        <id column="ID" jdbcType="INTEGER" property="id"/>
+        <result column="INDEX_" jdbcType="VARCHAR" property="index_"/>
+        <result column="SORT" jdbcType="INTEGER" property="sort"/>
+        <result column="PLAN" jdbcType="VARCHAR" property="plan"/>
+        <result column="VRSN" jdbcType="INTEGER" property="vrsn"/>
+        <result column="NP" jdbcType="INTEGER" property="np"/>
+        <result column="NB" jdbcType="INTEGER" property="nb"/>
+        <result column="SEX" jdbcType="VARCHAR" property="sex"/>
+        <result column="AGE" jdbcType="INTEGER" property="age"/>
+        <result column="POL_YR" jdbcType="INTEGER" property="polYr"/>
+        <result column="GP" jdbcType="DOUBLE" property="gp"/>
+        <result column="TR" jdbcType="DOUBLE" property="tr"/>
+        <result column="TRNP" jdbcType="DOUBLE" property="trnp"/>
+        <result column="CV" jdbcType="DOUBLE" property="cv"/>
+        <result column="CVNP" jdbcType="DOUBLE" property="cvnp"/>
+        <result column="PUAMT" jdbcType="DOUBLE" property="puamt"/>
+        <result column="PUTR" jdbcType="DOUBLE" property="putr"/>
+        <result column="DB" jdbcType="DOUBLE" property="db"/>
+        <result column="SB" jdbcType="DOUBLE" property="sb"/>
+    </resultMap>
+
+<!-- mysql -->
+<!--    <select id="findByIndex_" resultMap="BaseResultMap">-->
+<!--        SELECT-->
+<!--            *-->
+<!--        FROM-->
+<!--            data_zi-->
+<!--        <where>-->
+<!--            <if test="index_ != null and index_ != ''">-->
+<!--                AND index_ = #{index_}-->
+<!--            </if>-->
+<!--        </where>-->
+<!--        ORDER BY sort ASC-->
+<!--        limit 63-->
+<!--    </select>-->
+
+    <!--oracle  oracle 没有limit -->
+    <select id="findByIndex_" resultMap="BaseResultMap">
+        SELECT
+            *
+        FROM
+            data_zi
+        <where>
+            rownum &lt;= 63
+            <if test="index_ != null and index_ != ''">
+                AND index_ = #{index_}
+            </if>
+        </where>
+        ORDER BY sort ASC
+    </select>
+
+
+    <insert id="myInsertList" parameterType="List">
+        insert all
+        <foreach collection="list" item="item">
+            into data_zi("INDEX_","SORT","PLAN","VRSN","NP","NB","SEX","AGE","POL_YR","GP","TR","TRNP","CV","CVNP","PUAMT","PUTR","DB","SB")
+            values (
+                #{item.index_},
+                #{item.sort},
+                #{item.plan},
+                #{item.vrsn},
+                #{item.np},
+                #{item.nb},
+                #{item.sex},
+                #{item.age},
+                #{item.polYr},
+                #{item.gp},
+                #{item.tr},
+                #{item.trnp},
+                #{item.cv},
+                #{item.cvnp},
+                #{item.puamt},
+                #{item.putr},
+                #{item.db},
+                #{item.sb}
+            )
+        </foreach>
+        SELECT 1 FROM DUAL
+    </insert>
+
+    <delete id="clear">
+        delete from data_zi
+    </delete>
+
+</mapper>

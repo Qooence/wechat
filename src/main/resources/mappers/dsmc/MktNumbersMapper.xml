@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qooems.excel.mapper.dsmc.MktNumbersMapper">
+    <resultMap id="BaseResultMap" type="com.qooems.excel.model.dsmc.MktNumbers">
+        <result column="lan_id" jdbcType="VARCHAR" property="landId"/>
+        <result column="region_id" jdbcType="INTEGER" property="regionId"/>
+        <result column="acc_nbr" jdbcType="VARCHAR" property="accNbr"/>
+        <result column="bt_offer" jdbcType="INTEGER" property="btOffer"/>
+        <result column="product" jdbcType="INTEGER" property="product"/>
+        <result column="tytcdc" jdbcType="INTEGER" property="tytcdc"/>
+        <result column="operrtype" jdbcType="VARCHAR" property="operrtype"/>
+    </resultMap>
+
+</mapper>

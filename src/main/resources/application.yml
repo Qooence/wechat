@@ -16,10 +16,10 @@ spring:
 #      username: root
 #      password: 123456
       # oracle
-      driver-class-name: oracle.jdbc.OracleDriver
-      url: jdbc:oracle:thin:@localhost:1521:orcl
-      username: wechat
-      password: 123456
+      #driver-class-name: oracle.jdbc.OracleDriver
+      #url: jdbc:oracle:thin:@localhost:1521:orcl
+      #username: wechat
+      #password: 123456
       #配置初始化大小/最小/最大
       initial-size: 1
       min-idle: 1
@@ -50,23 +50,24 @@ spring:
     dmsc:
       datasource:
         url: jdbc:oracle:thin:@localhost:1521:orcl
-        username: wechat
+        username: dmsc
         password: 123456
         driverClassName: oracle.jdbc.OracleDriver
 
 
 #通用mapper配置
 mapper:
-  mappers: com.qooems.wechat.common.base.BaseMapper
+  mappers: com.qooems.excel.common.base.BaseMapper
 
 mybatis:
   mapperLocations: classpath:mappers/**/*Mapper.xml
-  typeAliasesPackage: com.qooems.wechat.model
+  typeAliasesPackage: com.qooems.excel.model
   checkConfigLocation: false
 
 #pagehelper
 pagehelper:
-  helperDialect: mysql
+#  helperDialect: mysql
+  helperDialect: oracle
   reasonable: true
   supportMethodsArguments: true
   params: count=countSql
